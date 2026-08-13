@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="css/main.css" />
+        <link rel="stylesheet" href="css/login.css" />
+        <link rel="stylesheet" href="css/app.css" />
+        <link rel="stylesheet" href="css/admin.css" />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+        />
+
+        <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+
+        <title>Smart Parking</title>
+    </head>
+    <body>
+        <div class="login" id="login-page">
+            <div class="login-box">
+                <h2 class="login-header">Login</h2>
+                <input
+                    type="text"
+                    id="account-id"
+                    placeholder="Account"
+                    autocomplete="on"
+                />
+                <input
+                    type="password"
+                    id="password-id"
+                    placeholder="Password"
+                />
+                <p id="login-error"></p>
+                <button onclick="handleLogin()">Login</button>
+            </div>
+        </div>
+
+        <div class="app">
+            <div class="header">
+                <div class="tabs">
+                    <button class="tab" data-target="info">
+                        <i class="fa-solid fa-address-card"></i>Info
+                    </button>
+                    <button class="tab" data-target="slots">
+                        <i class="fa-solid fa-car"></i>Slots
+                    </button>
+                    <button class="tab logout" data-target="logout">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        Logout
+                    </button>
+                </div>
+            </div>
+
+            <div class="content" id="content-area">
+                <div class="page" id="page-info">
+                    <div class="card info-card">
+                        <span>Name</span><span>:</span
+                        ><span id="txt-name">--</span> <span>ID</span
+                        ><span>:</span><span id="txt-id">--</span>
+                        <span>Number</span><span>:</span
+                        ><span id="txt-number">--</span> <span>Slot</span
+                        ><span>:</span><span id="txt-slot">--</span>
+                        <span>Date</span><span>:</span
+                        ><span id="txt-date">--</span> <span>Check-in</span
+                        ><span>:</span><span id="txt-checkin">--</span>
+                        <span>Check-out</span><span>:</span
+                        ><span id="txt-checkout">--</span> <span>Price</span
+                        ><span>:</span><span id="txt-price">--</span>
+                    </div>
+
+                    <div id="qr-container">
+                        <p class="qr-scan">Scan QR to pay</p>
+                        <img id="qr-image" src="" alt="QR PAY" />
+                    </div>
+                </div>
+
+                <div class="page" id="page-slots">
+                    <div class="slots-container">
+                        <div class="slot-border-left">
+                            <div class="slot" id="slot-A1" onclick="book(this)">
+                                A1
+                            </div>
+                            <div class="slot" id="slot-A2" onclick="book(this)">
+                                A2
+                            </div>
+                            <div class="slot-line"></div>
+                        </div>
+
+                        <div class="slot-border-right">
+                            <div class="slot" id="slot-A3" onclick="book(this)">
+                                A3
+                            </div>
+                            <div class="slot" id="slot-A4" onclick="book(this)">
+                                A4
+                            </div>
+                            <div class="slot-line"></div>
+                        </div>
+                    </div>
+
+                    <div class="full-warning">
+                        <p>PARKING SLOT FULL!</p>
+                    </div>
+
+                    <div class="warning-container">
+                        <div class="gas-warning" id="gas-id">GAS WARNING!</div>
+                        <div
+                            class="stolen-warning"
+                            id="stolen-id"
+                            onclick="this.style.display = 'none'"
+                        >
+                            BOOKED SLOT STOLEN!
+                        </div>
+                    </div>
+                </div>
+
+                <div class="logout"></div>
+            </div>
+        </div>
+
+        <div class="admin-app">
+            <div class="admin-sidebar">
+                <div class="admin-user">
+                    <span><i class="fa-solid fa-wrench"></i>Admin</span>
+                </div>
+                <ul class="admin-menu">
+                    <li class="admin-tab active" data-target="dashboard">
+                        <i class="fa-solid fa-gauge"></i>Dashboard
+                    </li>
+                    <li class="admin-tab" data-target="vehicles">
+                        <i class="fa-solid fa-car"></i>Vehicles
+                    </li>
+                    <li class="admin-tab" data-target="revenue">
+                        <i class="fa-solid fa-money-check-dollar"></i>Revenue
+                    </li>
+                    <li class="admin-tab" data-target="logout">
+                        <i class="fa-solid fa-right-from-bracket"></i>Logout
+                    </li>
+                </ul>
+            </div>
+
+            <div class="admin-main">
+                <div class="admin-topbar">
+                    <h2 id="admin-topbar-title">Dashboard</h2>
+                </div>
+                <div class="admin-content">
+                    <div class="admin-page active" id="admin-page-dashboard">
+                        <div class="admin-cards-container">
+                            <div class="admin-card vehicle-card">
+                                <div class="inner">
+                                    <p>Total vehicles</p>
+                                    <i class="fa-solid fa-car icon-bg"></i>
+                                </div>
+                                <div
+                                    class="admin-card-footer"
+                                    onclick="switchAdminTab('vehicles')"
+                                >
+                                    More info<i
+                                        class="fa-solid fa-circle-right"
+                                    ></i>
+                                </div>
+                            </div>
+                            <div class="admin-card revenue-card">
+                                <div class="inner">
+                                    <p>Total revenue</p>
+                                    <i
+                                        class="fa-solid fa-money-check-dollar icon-bg"
+                                    ></i>
+                                </div>
+                                <div
+                                    class="admin-card-footer"
+                                    onclick="switchAdminTab('revenue')"
+                                >
+                                    More info<i
+                                        class="fa-solid fa-circle-right"
+                                    ></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="admin-page" id="admin-page-vehicles">
+                        <div class="table-controls">
+                            <div class="filter-group">
+                                <label for="date-filter">Filter by date:</label>
+                                <input
+                                    type="date"
+                                    id="date-filter"
+                                    onchange="applyFilter()"
+                                />
+                            </div>
+                            <div class="sort-group">
+                                <button
+                                    class="sort_btn"
+                                    onclick="sortVehicles('ascending')"
+                                    title="Ascending"
+                                >
+                                    <i class="fa-solid fa-arrow-up"></i>
+                                    Checkout
+                                </button>
+                                <button
+                                    class="sort_btn"
+                                    onclick="sortVehicles('desc')"
+                                    title="Descending"
+                                >
+                                    <i class="fa-solid fa-arrow-down"></i>
+                                    Checkout
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="vehicle-table-container">
+                            <table class="vehicle-table">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>ID</th>
+                                        <th>Number</th>
+                                        <th>Slot</th>
+                                        <th>Date</th>
+                                        <th>Check-in</th>
+                                        <th>Check-out</th>
+                                        <th>Price</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="vehicle-table-body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="admin-page" id="admin-page-revenue">
+                        <div class="chart-container">
+                            <canvas id="revenueChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script type="module">
+            import { login } from "./js/auth.js";
+            import "./js/mqtt.js";
+            import "./js/ui.js";
+
+            // Expose login handler cho sự kiện onclick ở form login
+            window.handleLogin = login;
+        </script>
+    </body>
+</html>

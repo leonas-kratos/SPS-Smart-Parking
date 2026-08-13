@@ -1,0 +1,228 @@
+.admin-app {
+    display: none;
+    height: 100vh;
+    width: 100vw;
+    background-color: #f4f6f9;
+    font-family: Arial, sans-serif;
+    overflow: hidden;
+}
+
+.admin-sidebar {
+    width: 250px;
+    background-color: #343a40;
+    color: #c2c7d0;
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-user {
+    padding: 15px;
+    border-bottom: 1px solid #4f5962;
+}
+
+.admin-menu {
+    list-style: none;
+    padding: 10px;
+    margin: 0;
+}
+
+.admin-tab {
+    padding: 12px 20px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-radius: 4px;
+    margin: 8px 0;
+}
+
+.admin-tab:hover,
+.admin-tab.active {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.admin-tab[data-target="logout"]:hover {
+    background-color: #dc3545;
+}
+
+.admin-tab,
+.logout-tab {
+    margin-top: auto;
+    background-color: transparent;
+}
+
+.admin-tab.logout-tab:hover {
+    background-color: #dc3545;
+}
+
+.fa-address-card,
+.fa-wrench,
+.fa-gauge,
+.fa-car,
+.fa-money-check-dollar,
+.fa-right-from-bracket {
+    margin-right: 8px;
+}
+
+.admin-main {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-topbar {
+    height: 50px;
+    background-color: #dc3545;
+    color: white;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.admin-topbar-title {
+    margin: 0;
+    font-size: 16px;
+}
+
+.admin-content {
+    padding: 20px;
+}
+
+.admin-page {
+    display: none;
+}
+
+.admin-page.active {
+    display: block;
+}
+
+.admin-cards-container {
+    display: flex;
+    gap: 20px;
+}
+
+.admin-card {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    border-radius: 4px;
+    color: white;
+    height: 135px;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+}
+
+.vehicle-card {
+    background-color: #17a2b8;
+}
+
+.revenue-card {
+    background-color: #28a745;
+}
+
+.inner {
+    padding: 20px;
+    position: relative;
+}
+
+.inner p {
+    font-size: 24px;
+}
+
+.icon-bg {
+    position: absolute;
+    right: 5%;
+    top: 75%;
+    transform: translateY(-50%);
+    font-size: 80px;
+    color: rgba(0, 0, 0, 0.15);
+}
+
+.admin-card-footer {
+    margin-top: auto;
+    display: block;
+    padding: 5px 0;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.1);
+    color: white;
+    text-decoration: none;
+    transition: background 0.3s;
+    cursor: pointer;
+}
+
+.admin-card-footer:hover {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.fa-circle-right {
+    margin-left: 4px;
+}
+
+.table-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    background: white;
+    padding: 15px;
+    border-radius: 6px;
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+.filter-group,
+.sort-group {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+input[type="date"] {
+    border-radius: 8px;
+    text-align: center;
+    background: white;
+    height: 30px;
+}
+
+.sort_btn {
+    width: 100px;
+    height: 30px;
+    border-radius: 8px;
+    cursor: pointer;
+    background: white;
+}
+
+.sort_btn:hover {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.sort_btn:active {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.vehicle-table-container {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+.vehicle-table th,
+.vehicle-table td {
+    padding: 12px 15px;
+    text-align: center;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.vehicle-table th {
+    background-color: #f4f6f9;
+    font-weight: 600;
+    color: #495057;
+}
+
+.vehicle-table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+.chart-container {
+    position: relative;
+    height: 400px;
+    width: 100%;
+    padding: 20px;
+}
