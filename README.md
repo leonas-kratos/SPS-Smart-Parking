@@ -10,7 +10,7 @@
 
 ## Overview
 
-This repository contains Group 9's IoT smart-parking prototype for ELT3244 at VNU University of Engineering and Technology. The system combines RFID access control, AI computer vision, infrared occupancy sensing, gas safety monitoring, MQTT messaging, automated barriers, and a web dashboard with online reservations.
+This repository contains Group 9's IoT smart-parking prototype for **ELT3244 - IoT and Applications** at VNU University of Engineering and Technology. The project received a **score of 9/10** for the course. The system combines RFID access control, AI computer vision, infrared occupancy sensing, gas safety monitoring, MQTT messaging, automated barriers, and a web dashboard with online reservations.
 
 The central contribution is Vehicle-to-Slot Association (VSA): RFID identifies a vehicle at the gate, YOLOv8/BotSORT tracks it inside the parking area, and IR sensors confirm the physical slot. Together these signals map a vehicle ID to a concrete slot (A1–A4) in real time.
 
@@ -103,3 +103,4 @@ The prototype was evaluated on a four-slot model and camera performance depends 
 ## License
 
 See `LICENSE`.
+
